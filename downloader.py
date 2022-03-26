@@ -2,7 +2,7 @@
 # @Author: Mattlau04
 # @Date:   2022-03-25 16:26:58
 # @Last Modified by:   Mattlau04
-# @Last Modified time: 2022-03-26 01:39:32
+# @Last Modified time: 2022-03-26 11:13:49
 
 ########## CONFIG ##########
 SAVE_METADATA = True # Whether to save post metadatas in json files
@@ -203,28 +203,30 @@ def download_queue(queue: Queue[Post], foldername: str) -> Tuple[List[Post], Lis
             pool.submit(download_posts_from_queue)
 
     status_thread_running = False
-    print('-' * 10)
+    end = datetime.now()
+    sleep(1.5)
+    clear()
     print("Downloaded all posts")
     print(f"Success: {len(successful_downloads)}/{total_posts}")
     print(f"Failed: {len(failed_downloads)}/{total_posts}")
     print(f"Skipped: {len(skipped_downloads)}/{total_posts}")
+    print()
+    print(f"Finished at: {end:%d-%m-%Y %H:%M:%S}")
+    print(f"Took: {pretty_timedelta(end - start)}")
     if failed_downloads:
         print('-' * 10)
-        print("Failed downloads (some posts just have broken links that might cause fails)")
+        print("Failed downloads:")
+        print("(Those are often corrupted posts whose image URL's 404)")
         for p in failed_downloads:
             print(f"- Post #{p.id} ({p.image_url})")
 
     return successful_downloads, failed_downloads, skipped_downloads
 
 
-
-    # We wait for all the posts to be downloaded
-    queue.join()
-
 def main():
     print("""Useful metatags:
 ---------------
-'deleted:any' (downloads both deleted and non-deleted posts)
+'deleted:all' (downloads both deleted and non-deleted posts)
 'deleted:true' (downloads only deleted posts)
 'user:username' (downloads only posts from a user)
 'vote:>=3:username' (downloads only posts a user favorited)
@@ -234,7 +236,7 @@ def main():
     query = input("Query: ").strip()
     query = ' '.join(s for s in query.split(' ') if s) # Remove all dupe spaces
 
-    default_foldername = f'{datetime.now():%Y-%m-%d %H-%M-%S} {query[:100]}'
+    default_foldername = f'{datetime.now():%Y/%m/%d %H-%M-%S} {query[:100]}'
     default_foldername = ''.join(c for c in default_foldername if c.isalnum() or c in (' ', '_', '-')).strip()
     print('-'*10)
     print('Choose a folder name to where you want to save the posts')
