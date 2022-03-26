@@ -2,7 +2,7 @@
 # @Author: Mattlau04
 # @Date:   2022-03-25 16:26:58
 # @Last Modified by:   Mattlau04
-# @Last Modified time: 2022-03-26 01:28:50
+# @Last Modified time: 2022-03-26 01:39:32
 
 ########## CONFIG ##########
 SAVE_METADATA = True # Whether to save post metadatas in json files
@@ -16,18 +16,20 @@ RETRY_COUNT = 100 # How many times to retry downloading a post
 
 # This is the start of the actual code, you probably
 # shouldn't edit anything here
-from dataclasses import dataclass
 import json
-from queue import Empty, Queue
-from concurrent.futures import ThreadPoolExecutor
+import os
 import threading
+from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass
 from datetime import datetime, timedelta
+from os.path import exists
+from queue import Empty, Queue
 from time import sleep
 from typing import List, Tuple, Union
-import requests
-import os
-from os.path import exists
+
 import regex
+import requests
+
 
 @dataclass
 class Post:
