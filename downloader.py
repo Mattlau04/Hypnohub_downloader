@@ -2,11 +2,11 @@
 # @Author: Mattlau04
 # @Date:   2022-03-25 16:26:58
 # @Last Modified by:   Mattlau04
-# @Last Modified time: 2022-03-26 11:13:49
+# @Last Modified time: 2022-03-27 16:03:07
 
 ########## CONFIG ##########
 SAVE_METADATA = True # Whether to save post metadatas in json files
-SAVE_IMAGES = True # Whether to save post images files
+SAVE_IMAGES = False # Whether to save post images files
 SAVE_THUMBNAILS = False # If True, saves thumbnails instead of full res, 
 # saving space in exchange of some loss of quality
 
@@ -187,6 +187,8 @@ def download_queue(queue: Queue[Post], foldername: str) -> Tuple[List[Post], Lis
                         failed_downloads.append(post)
                 else:
                     skipped_downloads.append(post)
+            else:
+                skipped_downloads.append(post)
 
             # Metadata saving
             if SAVE_METADATA:
