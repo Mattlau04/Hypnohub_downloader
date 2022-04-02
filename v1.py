@@ -2,11 +2,11 @@
 # @Author: Mattlau04
 # @Date:   2022-03-25 16:26:58
 # @Last Modified by:   Mattlau04
-# @Last Modified time: 2022-03-27 16:03:07
+# @Last Modified time: 2022-04-02 14:02:03
 
 ########## CONFIG ##########
 SAVE_METADATA = True # Whether to save post metadatas in json files
-SAVE_IMAGES = False # Whether to save post images files
+SAVE_IMAGES = True # Whether to save post images files
 SAVE_THUMBNAILS = False # If True, saves thumbnails instead of full res, 
 # saving space in exchange of some loss of quality
 
@@ -213,7 +213,7 @@ def download_queue(queue: Queue[Post], foldername: str) -> Tuple[List[Post], Lis
     print(f"Failed: {len(failed_downloads)}/{total_posts}")
     print(f"Skipped: {len(skipped_downloads)}/{total_posts}")
     print()
-    print(f"Finished at: {end:%d-%m-%Y %H:%M:%S}")
+    print(f"Finished at: {end:%d/%m/%Y %H:%M:%S}")
     print(f"Took: {pretty_timedelta(end - start)}")
     if failed_downloads:
         print('-' * 10)
@@ -238,7 +238,7 @@ def main():
     query = input("Query: ").strip()
     query = ' '.join(s for s in query.split(' ') if s) # Remove all dupe spaces
 
-    default_foldername = f'{datetime.now():%Y/%m/%d %H-%M-%S} {query[:100]}'
+    default_foldername = f'{datetime.now():%Y-%m-%d %H-%M-%S} {query[:100]}'
     default_foldername = ''.join(c for c in default_foldername if c.isalnum() or c in (' ', '_', '-')).strip()
     print('-'*10)
     print('Choose a folder name to where you want to save the posts')
